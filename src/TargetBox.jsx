@@ -1,6 +1,6 @@
 import { useState, useCallback, memo } from 'react';
 import { useDrop } from 'react-dnd';
-import { Colors } from './Colors';
+import { Colors } from './Color';
 const style = {
     border: '1px solid gray',
     height: '15rem',
@@ -8,9 +8,10 @@ const style = {
     padding: '2rem',
     textAlign: 'center',
 };
-const TargetBox = memo(function TargetBox({ onDrop, lastDroppedColor, }) {
+
+const TargetBox = memo(function TargetBox({ itemArr, onDrop, lastDroppedColor, }) {
     const [{ isOver, draggingColor, canDrop }, drop] = useDrop(() => ({
-        accept: [Colors.YELLOW, Colors.BLUE],
+        accept: ['test'],
         drop(_item, monitor) {
             onDrop(monitor.getItemType());
             return undefined;
@@ -36,11 +37,19 @@ const TargetBox = memo(function TargetBox({ onDrop, lastDroppedColor, }) {
     return (<div ref={drop} data-color={lastDroppedColor || 'none'} style={{ ...style, backgroundColor, opacity }} role="TargetBox">
 			<p>Drop here.</p>
 
-			{!canDrop && lastDroppedColor && <p>Last dropped: {lastDroppedColor}</p>}
+			{itemArr && itemArr.map((item, idx) => (<div key={`test${idx}`} style={{ border: '1px solid #8c8c8c', height: '30px', marginBottom: '10px' }}>{item.id}</div>))}
 		</div>);
 });
 export const StatefulTargetBox = (props) => {
-    const [lastDroppedColor, setLastDroppedColor] = useState(null);
-    const handleDrop = useCallback((color) => setLastDroppedColor(color), []);
-    return (<TargetBox {...props} lastDroppedColor={lastDroppedColor} onDrop={handleDrop}/>);
+    const [itemArr, setItemArr] = useState([])
+    const handleDrop = useCallback((type) => {
+        setItemArr([...itemArr].concat(
+            [
+                {type,
+                id: type + itemArr.length}
+            ]
+        ))
+        // return setLastDroppedColor(color), []
+    }, [itemArr]);
+    return (<TargetBox {...props} itemArr={itemArr} onDrop={handleDrop}/>);
 };
