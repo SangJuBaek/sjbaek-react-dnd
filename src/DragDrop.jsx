@@ -37,7 +37,7 @@ const dummy = [
 export const Container = memo(function Container() {
     return (<div style={{ overflow: 'hidden', clear: 'both', margin: '-.5rem' }}>
 			<div style={{ float: 'left' }}>
-				{dummy.map((source) => (<SourceBox key={source.id} id={`${source.id}`} text={source.text} />))}
+				{dummy.map((source) => (<SourceBox key={source.id} id={`t${source.id}`} text={source.text} />))}
 			</div>
 
 			<div style={{ float: 'left', marginLeft: '5rem', marginTop: '.5rem' }}>

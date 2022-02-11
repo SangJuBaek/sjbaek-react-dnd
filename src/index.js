@@ -10,14 +10,14 @@ import rootReducer from './store'
 const store = createStore(rootReducer)
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <div className="App">
       <Provider store={store}>
         <DndProvider backend={HTML5Backend}>
           <App />
         </DndProvider>
       </Provider>
-    </div>
-  </React.StrictMode>,
+    </div>,
+  // </React.StrictMode>
   document.getElementById('root')
 );

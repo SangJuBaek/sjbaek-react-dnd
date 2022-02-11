@@ -8,12 +8,16 @@ const style = {
     margin: '0.5rem',
 };
 
-export const SourceBox = memo(function SourceBox({ children, }) {
+export const SourceBox = memo(function SourceBox({ id, text, children, }) {
     const [forbidDrag, setForbidDrag] = useState(false);
     const [{ isDragging }, drag] = useDrag(() => ({
         // type: color,
         // customType / 사용자마음대로 명명가능(controlType으로 사용)
         type: 'test',
+        item: {
+            id,
+            text
+        },
         canDrag: !forbidDrag,
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
@@ -40,7 +44,7 @@ export const SourceBox = memo(function SourceBox({ children, }) {
     }), [isDragging, forbidDrag]);
     return (<div ref={drag} style={containerStyle} role="SourceBox">
 			<input type="checkbox" checked={forbidDrag} onChange={onToggleForbidDrag}/>
-			<small>Forbid drag</small>
+			<small>{text}</small>
 			{children}
 		</div>);
 });
