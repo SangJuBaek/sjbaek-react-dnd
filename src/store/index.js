@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux'
-import { counter } from './counter'
+import { configureStore } from '@reduxjs/toolkit'
+import dragItemReducer from './dragItem'
 
-const rootReducer = combineReducers({
-  counter
+export const store = configureStore({
+  reducer: {
+    dragItem: dragItemReducer
+  },
 })
-
-export default rootReducer
