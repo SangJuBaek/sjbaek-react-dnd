@@ -1,4 +1,4 @@
-import {Container} from './DragDrop'
+import {Container} from 'DragDrop'
 
 function App() {
   return (

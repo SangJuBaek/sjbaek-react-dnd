@@ -1,6 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { dragItemState, SourceItem, TargetItem } from 'types'
+import { createTempId } from 'utils'
 
-const initialState = {
+const initialState: dragItemState = {
   value: 0,
   dragItems: [
     {
@@ -47,10 +49,16 @@ export const dragItemSlice = createSlice({
   name: 'dragItem',
   initialState,
   reducers: {
-    addDraggedItem (state, action) {
-      state.draggedItems.push(action.payload)
+    addDraggedItem (state, action: PayloadAction<SourceItem>) {
+      const targetItem: TargetItem = {
+        id: createTempId(),
+        type: action.payload.type,
+        sourceId: action.payload.id,
+        text: action.payload.text
+      }
+      state.draggedItems = [...state.draggedItems, targetItem]
     },
-    setFocusItemId (state, action) {
+    setFocusItemId (state, action: PayloadAction<string>) {
       state.focusItemId = action.payload
     }
   }

@@ -1,31 +1,32 @@
-import { useState, useCallback, useMemo, memo, } from 'react';
+import React, { useMemo, memo, CSSProperties } from 'react';
 import { useDrag } from 'react-dnd';
+import { SourceItem } from 'types'
+import { Button, StyleSheet, View } from 'react-native';
 
 // import { Colors } from './Color';
-const style = {
+const style: CSSProperties = {
     border: '1px dashed gray',
     padding: '0.5rem',
     margin: '0.5rem',
 };
 
-export const SourceBox = memo(function SourceBox({ sourceItem, id, text, children }) {
-    const [forbidDrag, setForbidDrag] = useState(false);
+export const SourceBox = memo(function SourceBox(sourceItem: SourceItem) {
     const [{ isDragging }, drag] = useDrag(() => ({
         // type: color,
         // customType / 사용자마음대로 명명가능(controlType으로 사용)
         type: sourceItem.type,
         item: {
-            id,
-            text
+            id: sourceItem.id,
+            text: sourceItem.text
         },
-        canDrag: !forbidDrag,
+        // canDrag: !forbidDrag,
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
         }),
-    }), [forbidDrag]);
-    const onToggleForbidDrag = useCallback(() => { 
-        setForbidDrag(!forbidDrag);
-    }, [forbidDrag, setForbidDrag]);
+    }), []);
+    // const onToggleForbidDrag = useCallback(() => { 
+    //     setForbidDrag(!forbidDrag);
+    // }, [forbidDrag, setForbidDrag]);
     // const backgroundColor = useMemo(() => {
     //     switch (color) {
     //         case Colors.YELLOW:
@@ -40,11 +41,11 @@ export const SourceBox = memo(function SourceBox({ sourceItem, id, text, childre
         ...style,
         // backgroundColor,
         opacity: isDragging ? 0.4 : 1,
-        cursor: forbidDrag ? 'default' : 'move',
-    }), [isDragging, forbidDrag]);
+        cursor: 'move',
+    }), [isDragging]);
     return (<div ref={drag} style={containerStyle} role="SourceBox">
-			<input type="checkbox" checked={forbidDrag} onChange={onToggleForbidDrag}/>
+			<input type="checkbox" />
 			<small>{sourceItem.text}</small>
-			{children}
+            <Button onPress={() => {}} title="Button" />
 		</div>);
 });
